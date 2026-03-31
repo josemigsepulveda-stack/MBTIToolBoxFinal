@@ -82,6 +82,7 @@ body { font-family: Calibri, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans
 <div class="tabs">
   <button class="tab-btn active" data-tab="stress">🧠 <span data-i18n="tab-stress">Stress</span></button>
   <button class="tab-btn" data-tab="comm">💬 <span data-i18n="tab-comm">Communication</span></button>
+  <button class="tab-btn" data-tab="collab">🤝 <span data-i18n="tab-collab">Collaboration</span></button>
 </div>
 
 <div class="content">
@@ -100,16 +101,23 @@ body { font-family: Calibri, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans
     <div id="comm-matrix"></div>
     <div id="comm-cards"></div>
   </div>
-</div>
+  <div id="collab-section" style="display:none">
+    <div class="section-title">
+      <h2 data-i18n="collab-title">MBTI &amp; Collaboration</h2>
+      <p data-i18n="collab-sub">16 profiles — Tap a type to explore</p>
+    </div>
+    <div id="collab-filters" style="display:flex;justify-content:center;gap:6px;margin-bottom:14px;flex-wrap:wrap"></div>
+    <div id="collab-cards"></div>
+  </div>
 
 <div class="footer">UKRATLANTIC Team Efficiency — April 1st, 2026 — Confidential</div>
 
 <script>
 // ============ DATA ============
 const i18n = {
-  en: { "tab-stress":"Stress","tab-comm":"Communication","stress-title":"MBTI & Stress Management","stress-sub":"8 stress reaction profiles — Tap to open","comm-title":"MBTI & Communication Styles","comm-sub":"4 styles — Characteristics & how to convince",best:"At their best",l1:"Exaggeration (level 1)",l2:"Opposite of themselves (level 2)",restore:"How to restore balance?",chars:"Characteristics",convince:"How to convince this style",doL:"Do",dontL:"Don't",axisV:"Attention to relationship",axisH:"Detail of information" },
-  fr: { "tab-stress":"Stress","tab-comm":"Communication","stress-title":"MBTI & Gestion du stress","stress-sub":"8 profils de réaction sous stress — Appuyez pour ouvrir","comm-title":"MBTI & Styles de communication","comm-sub":"4 styles — Caractéristiques & comment convaincre",best:"Au meilleur d'eux-mêmes",l1:"Exagération (niveau 1)",l2:"À l'opposé (niveau 2)",restore:"Comment rétablir l'équilibre ?",chars:"Caractéristiques",convince:"Comment convaincre ce style",doL:"À faire",dontL:"À éviter",axisV:"Attention à la relation",axisH:"Détail des informations" },
-  ua: { "tab-stress":"Стрес","tab-comm":"Комунікація","stress-title":"MBTI & Управління стресом","stress-sub":"8 профілів реакцій на стрес — Натисніть, щоб відкрити","comm-title":"MBTI & Стилі комунікації","comm-sub":"4 стилі — Характеристики та як переконати",best:"У кращому вигляді",l1:"Перебільшення (рівень 1)",l2:"Протилежність собі (рівень 2)",restore:"Як відновити баланс?",chars:"Характеристики",convince:"Як переконати цей стиль",doL:"Робити",dontL:"Не робити",axisV:"Увага до стосунків",axisH:"Деталізація інформації" }
+  en: { "tab-stress":"Stress","tab-comm":"Communication","tab-collab":"Collaboration","tab-collab":"Collaboration","stress-title":"MBTI & Stress Management","stress-sub":"8 stress reaction profiles — Tap to open","comm-title":"MBTI & Communication Styles","comm-sub":"4 styles — Characteristics & how to convince","collab-title":"MBTI & Collaboration","collab-sub":"16 profiles — Filter by temperament, tap to explore",best:"At their best",l1:"Exaggeration (level 1)",l2:"Opposite of themselves (level 2)",restore:"How to restore balance?",chars:"Characteristics",convince:"How to convince this style",doL:"Do",dontL:"Don't",axisV:"Attention to relationship",axisH:"Detail of information",c1:"What to know about this profile",c2:"What I bring to a team",c3:"My needs in collaboration",c4:"What irritates me in teamwork",c5:"My challenges in collaboration",allTypes:"All",filterSJ:"SJ — Guardians",filterSP:"SP — Artisans",filterNF:"NF — Idealists",filterNT:"NT — Rationals",cabout:"What to know about this profile",cbring:"What I bring to a team",cneeds:"My needs in collaboration",cirritates:"What irritates me in teamwork",cchallenges:"My challenges in collaboration" },
+  fr: { "tab-stress":"Stress","tab-comm":"Communication","tab-collab":"Collaboration","stress-title":"MBTI & Gestion du stress","stress-sub":"8 profils de réaction sous stress — Appuyez pour ouvrir","comm-title":"MBTI & Styles de communication","comm-sub":"4 styles — Caractéristiques & comment convaincre","collab-title":"MBTI & Collaboration","collab-sub":"16 profils — Filtrez par tempérament, appuyez pour explorer",best:"Au meilleur d'eux-mêmes",l1:"Exagération (niveau 1)",l2:"À l'opposé (niveau 2)",restore:"Comment rétablir l'équilibre ?",chars:"Caractéristiques",convince:"Comment convaincre ce style",doL:"À faire",dontL:"À éviter",axisV:"Attention à la relation",axisH:"Détail des informations",c1:"Ce qu'il faut savoir sur ce profil",c2:"Ce que j'apporte à un collectif",c3:"Mes besoins en collaboration",c4:"Ce qui m'irrite dans le travail collectif",c5:"Mes challenges en collaboration",allTypes:"Tous",filterSJ:"SJ — Gardiens",filterSP:"SP — Artisans",filterNF:"NF — Idéalistes",filterNT:"NT — Rationnels",cabout:"Ce qu'il faut savoir sur ce profil",cbring:"Ce que j'apporte à un collectif",cneeds:"Mes besoins en collaboration",cirritates:"Ce qui m'irrite dans le travail collectif",cchallenges:"Mes challenges en collaboration" },
+  ua: { "tab-stress":"Стрес","tab-comm":"Комунікація","tab-collab":"Співпраця","stress-title":"MBTI & Управління стресом","stress-sub":"8 профілів реакцій на стрес — Натисніть, щоб відкрити","comm-title":"MBTI & Стилі комунікації","comm-sub":"4 стилі — Характеристики та як переконати","collab-title":"MBTI & Співпраця","collab-sub":"16 профілів — Фільтруйте за темпераментом, натисніть для перегляду",best:"У кращому вигляді",l1:"Перебільшення (рівень 1)",l2:"Протилежність собі (рівень 2)",restore:"Як відновити баланс?",chars:"Характеристики",convince:"Як переконати цей стиль",doL:"Робити",dontL:"Не робити",axisV:"Увага до стосунків",axisH:"Деталізація інформації",c1:"Що потрібно знати про цей профіль",c2:"Що я привношу в команду",c3:"Мої потреби у співпраці",c4:"Що мене дратує в командній роботі",c5:"Мої виклики у співпраці",allTypes:"Усі",filterSJ:"SJ — Охоронці",filterSP:"SP — Майстри",filterNF:"NF — Ідеалісти",filterNT:"NT — Раціонали",cabout:"Що потрібно знати про цей профіль",cbring:"Що я привношу в команду",cneeds:"Мої потреби у співпраці",cirritates:"Що мене дратує в командній роботі",cchallenges:"Мої виклики у співпраці" }
 };
 
 const stress = [
@@ -157,32 +165,32 @@ const stress = [
 
 const comm = [
   { pair:"ST",color:"#1565C0",
-    name:{en:"The Analyticals",fr:"Les Analytiques"},
-    chars:{en:["Practical","Down-to-earth","Logical","Detail-focused","Systematic"],fr:["Pratique","Terre à terre","Logique","Orienté détails","Systématique"]},
-    convince:{en:["Give facts and get to the point quickly","Show it saves time & money","Show how results will be measured","Answer all questions precisely","Give examples of past successes"],fr:["Expliquer les bénéfices détaillés","Montrer que c'est logique et rentable","Montrer comment mesurer les résultats","Répondre à toutes les questions","Donner des exemples de réussites"]},
-    doL:{en:["Describe pros & cons","Give facts and evidence","Be clear and direct"],fr:["Avantages et inconvénients","Faits et preuves","Clair et direct"]},
-    dontL:{en:["Be too emotional","Lack logic","Lack confidence"],fr:["Trop émotif","Manquer de logique","Manquer de confiance"]}
+    name:{en:"The Analyticals",fr:"Les Analytiques",ua:"Аналітики"},
+    chars:{en:["Practical","Down-to-earth","Logical","Detail-focused","Systematic"],fr:["Pratique","Terre à terre","Logique","Orienté détails","Systématique"],ua:["Практичний","Приземлений","Логічний","Орієнтований на деталі","Систематичний"]},
+    convince:{en:["Give facts and get to the point quickly","Show it saves time & money","Show how results will be measured","Answer all questions precisely","Give examples of past successes"],fr:["Expliquer les bénéfices détaillés","Montrer que c'est logique et rentable","Montrer comment mesurer les résultats","Répondre à toutes les questions","Donner des exemples de réussites"],ua:["Давайте факти і переходьте до суті","Покажіть, що це економить час і гроші","Покажіть, як вимірювати результати","Відповідайте на всі запитання точно","Наведіть приклади минулих успіхів"]},
+    doL:{en:["Describe pros & cons","Give facts and evidence","Be clear and direct"],fr:["Avantages et inconvénients","Faits et preuves","Clair et direct"],ua:["Опишіть переваги та недоліки","Надайте факти та докази","Будьте чіткими та прямими"]},
+    dontL:{en:["Be too emotional","Lack logic","Lack confidence"],fr:["Trop émotif","Manquer de logique","Manquer de confiance"],ua:["Бути занадто емоційним","Бракувати логіки","Бракувати впевненості"]}
   },
   { pair:"SF",color:"#7CB342",
-    name:{en:"The Carers",fr:"Les Prévenants"},
-    chars:{en:["Practical","Friendly","Caring","People-focused","Personalized"],fr:["Pratique","Amical","Attentionné","Centré personnes","Personnalisé"]},
-    convince:{en:["Give step-by-step explanations","Practical, factual information","Concrete benefits for people","Link to immediate applications","Use personal examples"],fr:["Explications étape par étape","Infos pratiques et factuelles","Bénéfices concrets pour les personnes","Applications immédiates","Exemples personnels des autres"]},
-    doL:{en:["Show you listen","Use personal words","Be authentic"],fr:["Montrez votre écoute","Mots personnalisés","Authenticité"]},
-    dontL:{en:["Be too direct","Ignore details","Be cold/distant"],fr:["Trop direct","Ignorer les détails","Froid ou distant"]}
+    name:{en:"The Carers",fr:"Les Prévenants",ua:"Турботливі"},
+    chars:{en:["Practical","Friendly","Caring","People-focused","Personalized"],fr:["Pratique","Amical","Attentionné","Centré personnes","Personnalisé"],ua:["Практичний","Дружній","Турботливий","Орієнтований на людей","Персоналізований"]},
+    convince:{en:["Give step-by-step explanations","Practical, factual information","Concrete benefits for people","Link to immediate applications","Use personal examples"],fr:["Explications étape par étape","Infos pratiques et factuelles","Bénéfices concrets pour les personnes","Applications immédiates","Exemples personnels des autres"],ua:["Давайте покрокові пояснення","Практична, фактична інформація","Конкретні переваги для людей","Зв'язок із безпосереднім застосуванням","Використовуйте особисті приклади"]},
+    doL:{en:["Show you listen","Use personal words","Be authentic"],fr:["Montrez votre écoute","Mots personnalisés","Authenticité"],ua:["Покажіть, що слухаєте","Використовуйте особисті слова","Будьте автентичними"]},
+    dontL:{en:["Be too direct","Ignore details","Be cold/distant"],fr:["Trop direct","Ignorer les détails","Froid ou distant"],ua:["Бути занадто прямим","Ігнорувати деталі","Бути холодним/відстороненим"]}
   },
   { pair:"NF",color:"#F9A825",
-    name:{en:"The Idealists",fr:"Les Idéalistes"},
-    chars:{en:["Perspicacious","Enthusiastic","Empathetic","Possibility-focused","Meaningful"],fr:["Perspicace","Enthousiaste","Empathique","Orienté possibilités","Porteur de sens"]},
-    convince:{en:["Be positive & enthusiastic","Appeal to their values","Give general guidelines","Emphasize originality","Say it friendly, not too detailed","Show how to improve relationships"],fr:["Être positif et enthousiaste","Faire appel aux valeurs","Pistes générales","Mettre l'accent sur l'originalité","De manière amicale","Montrer comment améliorer les relations"]},
-    doL:{en:["Stimulate imagination","Show energy & passion","Emphasize harmony"],fr:["Stimuler l'imagination","Énergie et passion","L'accent sur l'harmonie"]},
-    dontL:{en:["Too much detail","Miss big picture","Lack passion"],fr:["Trop de détails","Manquer la vue d'ensemble","Manquer de passion"]}
+    name:{en:"The Idealists",fr:"Les Idéalistes",ua:"Ідеалісти"},
+    chars:{en:["Perspicacious","Enthusiastic","Empathetic","Possibility-focused","Meaningful"],fr:["Perspicace","Enthousiaste","Empathique","Orienté possibilités","Porteur de sens"],ua:["Проникливий","Ентузіастичний","Емпатичний","Орієнтований на можливості","Змістовний"]},
+    convince:{en:["Be positive & enthusiastic","Appeal to their values","Give general guidelines","Emphasize originality","Say it friendly, not too detailed","Show how to improve relationships"],fr:["Être positif et enthousiaste","Faire appel aux valeurs","Pistes générales","Mettre l'accent sur l'originalité","De manière amicale","Montrer comment améliorer les relations"],ua:["Будьте позитивними та ентузіастичними","Апелюйте до їхніх цінностей","Давайте загальні орієнтири","Підкресліть оригінальність підходу","Скажіть дружньо, без зайвих деталей","Покажіть, як покращити стосунки"]},
+    doL:{en:["Stimulate imagination","Show energy & passion","Emphasize harmony"],fr:["Stimuler l'imagination","Énergie et passion","L'accent sur l'harmonie"],ua:["Стимулюйте уяву","Покажіть енергію та пристрасть","Підкресліть гармонію"]},
+    dontL:{en:["Too much detail","Miss big picture","Lack passion"],fr:["Trop de détails","Manquer la vue d'ensemble","Manquer de passion"],ua:["Занадто багато деталей","Пропустити загальну картину","Бракувати пристрасті"]}
   },
   { pair:"NT",color:"#B71C1C",
-    name:{en:"The Visionaries",fr:"Les Visionnaires"},
-    chars:{en:["Conceptual","Analytical","Logical","System-focused","Strategic"],fr:["Conceptuel","Analytique","Logique","Orienté systèmes","Stratégique"]},
-    convince:{en:["Give scientific background","Show expertise","Be precise with words","Explain strategic fit","Show skill development","Long-term possibilities"],fr:["Théorie et recherche","Lien avec une stratégie","Implications à long terme","Être crédible","Reconnaître leur expertise","Maîtriser votre sujet"]},
-    doL:{en:["Pros/cons of options","Acknowledge expertise","Appear competent"],fr:["Avantages/inconvénients","Reconnaître l'expertise","Maîtriser le sujet"]},
-    dontL:{en:["Too emotional","Lack facts/focus","Irrelevant details"],fr:["Trop émotif","Manquer de preuves","Détails non pertinents"]}
+    name:{en:"The Visionaries",fr:"Les Visionnaires",ua:"Візіонери"},
+    chars:{en:["Conceptual","Analytical","Logical","System-focused","Strategic"],fr:["Conceptuel","Analytique","Logique","Orienté systèmes","Stratégique"],ua:["Концептуальний","Аналітичний","Логічний","Орієнтований на системи","Стратегічний"]},
+    convince:{en:["Give scientific background","Show expertise","Be precise with words","Explain strategic fit","Show skill development","Long-term possibilities"],fr:["Théorie et recherche","Lien avec une stratégie","Implications à long terme","Être crédible","Reconnaître leur expertise","Maîtriser votre sujet"],ua:["Надайте наукове обґрунтування","Покажіть свою експертизу","Будьте точними у словах","Поясніть стратегічну відповідність","Покажіть розвиток навичок","Довгострокові можливості"]},
+    doL:{en:["Pros/cons of options","Acknowledge expertise","Appear competent"],fr:["Avantages/inconvénients","Reconnaître l'expertise","Maîtriser le sujet"],ua:["Переваги/недоліки варіантів","Визнайте їхню експертизу","Виглядайте компетентно"]},
+    dontL:{en:["Too emotional","Lack facts/focus","Irrelevant details"],fr:["Trop émotif","Manquer de preuves","Détails non pertinents"],ua:["Занадто емоційний","Бракує фактів/зосередженості","Нерелевантні деталі"]}
   }
 ];
 
@@ -216,13 +224,13 @@ function renderStress() {
 
 function renderComm() {
   const L = i18n[currentLang];
-  const l = currentLang === "ua" ? "en" : currentLang;
+  const l = currentLang;
   // Matrix
   const matrixData = [
-    {pair:"NF",color:"#F9A825",label:{en:"Idealists",fr:"Idéalistes"}},
-    {pair:"SF",color:"#7CB342",label:{en:"Carers",fr:"Prévenants"}},
-    {pair:"NT",color:"#B71C1C",label:{en:"Visionaries",fr:"Visionnaires"}},
-    {pair:"ST",color:"#1565C0",label:{en:"Analyticals",fr:"Analytiques"}}
+    {pair:"NF",color:"#F9A825",label:{en:"Idealists",fr:"Idéalistes",ua:"Ідеалісти"}},
+    {pair:"SF",color:"#7CB342",label:{en:"Carers",fr:"Prévenants",ua:"Турботливі"}},
+    {pair:"NT",color:"#B71C1C",label:{en:"Visionaries",fr:"Visionnaires",ua:"Візіонери"}},
+    {pair:"ST",color:"#1565C0",label:{en:"Analyticals",fr:"Analytiques",ua:"Аналітики"}}
   ];
   let mhtml = `<div class="matrix">`;
   matrixData.forEach(m => {
@@ -273,6 +281,7 @@ function setLang(lang) {
   });
   renderStress();
   renderComm();
+  renderCollab();
 }
 
 function setTab(tab) {
@@ -280,15 +289,419 @@ function setTab(tab) {
   document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
   document.getElementById("stress-section").style.display = tab === "stress" ? "block" : "none";
   document.getElementById("comm-section").style.display = tab === "comm" ? "block" : "none";
+  document.getElementById("collab-section").style.display = tab === "collab" ? "block" : "none";
+  if (tab === "collab") renderCollab();
 }
 
-// Event listeners
-document.querySelectorAll(".lang-btn").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
-document.querySelectorAll(".tab-btn").forEach(b => b.addEventListener("click", () => setTab(b.dataset.tab)));
+
+
+// ===== COLLABORATION DATA =====
+let collabFilter = "all";
+const collab = [
+// ===== SJ TYPES =====
+{type:"ISTJ",color:"#1565C0",group:"SJ",
+en:{
+about:["Reliable, thorough and detail-oriented","Value tradition, rules and established procedures","Work methodically and prefer clear expectations","Take commitments seriously and follow through","Prefer facts over speculation","Think carefully before speaking or acting","Respect hierarchy and organizational structures","Private and reserved, but deeply loyal","Strong sense of duty and responsibility","Excel at maintaining systems and quality standards"],
+bring:["Consistency and dependability the team can count on","Meticulous attention to detail and accuracy","Strong institutional memory — remember what worked before","Ability to create and maintain efficient processes","Calm, steady presence even under pressure","Thorough analysis of risks before decisions","Respect for deadlines and deliverables","Clear documentation and record-keeping","Practical, no-nonsense problem solving","A stabilizing force during periods of change"],
+needs:["Clear roles, responsibilities and expectations","Structured processes and defined workflows","Sufficient time to analyze before deciding","Respect for established procedures","Factual, evidence-based communication","Predictability and advance notice of changes","Private space to think and concentrate","Recognition for reliability and thoroughness","Logical rationale behind decisions","Written agendas and follow-up after meetings"],
+irritates:["Constant changes without clear justification","Vague instructions or shifting expectations","People who don't follow through on commitments","Disorganization and lack of planning","Being rushed into decisions without data","Theoretical discussions with no practical application","People who bend or ignore the rules","Last-minute changes to agreed plans","Emotional arguments overriding logical analysis","Lack of respect for proven methods"],
+challenges:["Adapting quickly to unexpected changes","Considering unconventional approaches","Expressing feelings or personal concerns openly","Delegating tasks they could do more thoroughly","Being flexible when the plan needs to change","Seeing the big picture beyond immediate details","Accepting ideas that lack proven track record","Giving positive feedback spontaneously","Tolerating ambiguity and open-ended situations","Embracing innovation before it's proven"]
+},
+fr:{
+about:["Fiable, rigoureux et orienté détails","Valorise la tradition, les règles et les procédures établies","Travaille méthodiquement et préfère des attentes claires","Prend les engagements au sérieux et les honore","Préfère les faits aux spéculations","Réfléchit avant de parler ou d'agir","Respecte la hiérarchie et les structures","Réservé mais profondément loyal","Fort sens du devoir et de la responsabilité","Excelle dans le maintien des systèmes et standards de qualité"],
+bring:["Constance et fiabilité sur lesquelles l'équipe peut compter","Attention méticuleuse aux détails et à la précision","Mémoire institutionnelle — se souvient de ce qui a fonctionné","Capacité à créer et maintenir des processus efficaces","Présence calme et stable même sous pression","Analyse approfondie des risques avant les décisions","Respect des délais et des livrables","Documentation claire et tenue de dossiers","Résolution de problèmes pratique et pragmatique","Force stabilisatrice en période de changement"],
+needs:["Rôles, responsabilités et attentes clairement définis","Processus structurés et flux de travail définis","Temps suffisant pour analyser avant de décider","Respect des procédures établies","Communication factuelle et basée sur des preuves","Prévisibilité et préavis en cas de changement","Espace privé pour réfléchir et se concentrer","Reconnaissance de sa fiabilité et rigueur","Logique derrière les décisions prises","Ordres du jour écrits et suivi après réunions"],
+irritates:["Changements constants sans justification claire","Instructions vagues ou attentes changeantes","Personnes qui ne respectent pas leurs engagements","Désorganisation et manque de planification","Être pressé de décider sans données","Discussions théoriques sans application pratique","Personnes qui contournent les règles","Changements de dernière minute","Arguments émotionnels supplantant l'analyse logique","Manque de respect pour les méthodes éprouvées"],
+challenges:["S'adapter rapidement aux changements imprévus","Considérer des approches non conventionnelles","Exprimer ouvertement ses sentiments","Déléguer des tâches qu'il pourrait mieux faire","Être flexible quand le plan doit changer","Voir la vue d'ensemble au-delà des détails","Accepter des idées sans historique prouvé","Donner du feedback positif spontanément","Tolérer l'ambiguïté et les situations ouvertes","Adopter l'innovation avant qu'elle ne soit prouvée"]
+},
+ua:{
+about:["Надійний, ретельний і орієнтований на деталі","Цінує традиції, правила та встановлені процедури","Працює методично, віддає перевагу чітким очікуванням","Серйозно ставиться до зобов'язань і виконує їх","Надає перевагу фактам перед припущеннями","Обдумує перед тим, як говорити чи діяти","Поважає ієрархію та організаційні структури","Стриманий, але глибоко відданий","Сильне почуття обов'язку та відповідальності","Відмінно підтримує системи та стандарти якості"],
+bring:["Стабільність і надійність для команди","Ретельна увага до деталей та точності","Інституційна пам'ять — пам'ятає, що працювало раніше","Здатність створювати ефективні процеси","Спокійна присутність навіть під тиском","Ґрунтовний аналіз ризиків перед рішеннями","Дотримання термінів","Чітка документація","Практичне вирішення проблем","Стабілізуюча сила в період змін"],
+needs:["Чіткі ролі та очікування","Структуровані процеси","Достатньо часу для аналізу","Повага до процедур","Фактична комунікація","Передбачуваність","Простір для зосередження","Визнання надійності","Логічне обґрунтування рішень","Письмові порядки денні"],
+irritates:["Постійні зміни без обґрунтування","Нечіткі інструкції","Люди, що не виконують зобов'язань","Безладдя та відсутність планування","Поспішні рішення без даних","Теоретичні дискусії без практики","Ігнорування правил","Зміни в останню хвилину","Емоційні аргументи замість логіки","Неповага до перевірених методів"],
+challenges:["Швидка адаптація до змін","Нестандартні підходи","Відкрите вираження почуттів","Делегування завдань","Гнучкість при зміні планів","Бачення загальної картини","Прийняття неперевірених ідей","Спонтанний позитивний зворотний зв'язок","Толерантність до невизначеності","Прийняття інновацій до їх перевірки"]
+}},
+
+{type:"ISFJ",color:"#2E7D32",group:"SJ",
+en:{
+about:["Warm, supportive and deeply conscientious","Remember details about people and past experiences","Value harmony and work hard to maintain it","Quietly dedicated to helping others succeed","Prefer working behind the scenes","Practical and grounded in reality","Loyal to people and organizations","Sensitive to others' needs, sometimes at own expense","Prefer established ways that have proven effective","Patient and thorough in everything they do"],
+bring:["A caring, supportive atmosphere within the team","Exceptional memory for people's preferences and needs","Willingness to handle practical tasks others overlook","Loyalty and quiet dedication to the team's mission","Ability to anticipate what the team needs before being asked","Smooth logistics and practical organization","A calming presence that reduces interpersonal tension","Thorough follow-through on all commitments","Bridge-building between different team members","Attention to team wellbeing and morale"],
+needs:["Appreciation and recognition for their contributions","Harmonious working relationships","Clear, specific and kind communication","Stability and predictable routines","Time to process changes before implementing","Feeling that their work makes a tangible difference","Personal connection with colleagues","Respect for their experience and institutional knowledge","A safe environment to express concerns","Protection from being overloaded with others' work"],
+irritates:["Conflict and confrontational behaviour","Being taken for granted or invisible","Criticism delivered harshly or publicly","Constant disruption of established routines","People who are dismissive of others' feelings","Lack of follow-through creating extra work for them","Being pressured to make quick decisions","Disregard for team traditions and shared history","Theoretical approaches that ignore human impact","People who don't say thank you"],
+challenges:["Setting boundaries and saying no","Advocating for their own needs","Adapting to rapid organizational changes","Speaking up in large group settings","Letting go of how things have always been done","Confronting poor performance directly","Accepting that not everyone values harmony equally","Delegating care-taking responsibilities","Not personalizing critical feedback","Prioritizing their own wellbeing over others' needs"]
+},
+fr:{
+about:["Chaleureux, bienveillant et profondément consciencieux","Se souvient des détails sur les personnes et les expériences","Valorise l'harmonie et travaille dur pour la maintenir","Discrètement dévoué à aider les autres à réussir","Préfère travailler dans l'ombre","Pratique et ancré dans la réalité","Loyal envers les personnes et les organisations","Sensible aux besoins des autres, parfois à ses dépens","Préfère les méthodes éprouvées et efficaces","Patient et rigoureux en toute chose"],
+bring:["Une atmosphère bienveillante et soutenante","Mémoire exceptionnelle des préférences de chacun","Volonté de gérer les tâches pratiques négligées","Loyauté et dévouement discret à la mission","Capacité d'anticiper les besoins de l'équipe","Logistique fluide et organisation pratique","Présence apaisante qui réduit les tensions","Suivi rigoureux de tous les engagements","Construction de ponts entre les membres","Attention au bien-être et au moral de l'équipe"],
+needs:["Appréciation et reconnaissance des contributions","Relations de travail harmonieuses","Communication claire, spécifique et bienveillante","Stabilité et routines prévisibles","Temps pour intégrer les changements","Sentiment que le travail fait une différence concrète","Connexion personnelle avec les collègues","Respect de l'expérience et de la mémoire institutionnelle","Environnement sûr pour exprimer ses préoccupations","Protection contre la surcharge de travail des autres"],
+irritates:["Conflits et comportements confrontationnels","Être considéré comme acquis ou invisible","Critiques formulées durement ou publiquement","Perturbation constante des routines","Personnes méprisantes envers les sentiments d'autrui","Non-suivi créant du travail supplémentaire","Pression pour décider rapidement","Mépris des traditions d'équipe","Approches théoriques ignorant l'impact humain","Personnes qui ne disent pas merci"],
+challenges:["Poser des limites et dire non","Défendre ses propres besoins","S'adapter aux changements rapides","Prendre la parole en grand groupe","Lâcher prise sur les habitudes","Confronter directement la sous-performance","Accepter que tous ne valorisent pas l'harmonie","Déléguer les responsabilités de prise en charge","Ne pas personnaliser les critiques","Prioriser son bien-être sur celui des autres"]
+},
+ua:{
+about:["Теплий, підтримуючий і відповідальний","Пам'ятає деталі про людей","Цінує гармонію","Тихо відданий допомозі іншим","Працює за лаштунками","Практичний","Лояльний","Чутливий до потреб інших","Надає перевагу перевіреним методам","Терплячий і ретельний"],
+bring:["Турботлива атмосфера в команді","Виняткова пам'ять на переваги людей","Готовність виконувати непомітні завдання","Лояльність і тиха відданість","Здатність передбачати потреби команди","Гладка логістика","Заспокійлива присутність","Ретельне виконання зобов'язань","Побудова мостів між колегами","Увага до морального духу"],
+needs:["Визнання внеску","Гармонійні стосунки","Чітка і добра комунікація","Стабільність","Час для адаптації до змін","Відчуття значущості роботи","Особистий зв'язок з колегами","Повага до досвіду","Безпечне середовище","Захист від перевантаження"],
+irritates:["Конфлікти","Бути непоміченим","Різка критика","Порушення рутини","Зневага до почуттів","Невиконання зобов'язань","Тиск швидко вирішувати","Ігнорування традицій","Теорія без врахування людей","Невдячність"],
+challenges:["Встановлення меж","Відстоювання своїх потреб","Адаптація до швидких змін","Виступи у великих групах","Відпускання старих звичок","Пряма конфронтація","Прийняття різних цінностей","Делегування турботи","Не приймати критику особисто","Пріоритет власного благополуччя"]
+}},
+
+{type:"ESTJ",color:"#C62828",group:"SJ",
+en:{
+about:["Decisive, organized and results-oriented","Natural leaders who take charge efficiently","Value order, structure and clear accountability","Direct and straightforward communicators","Rely on logic, experience and proven methods","Strong sense of responsibility to the group","Expect high standards from themselves and others","Prefer action over prolonged discussion","Respect chain of command and formal roles","Excel at implementing plans and managing operations"],
+bring:["Strong organizational skills and structure","Clear direction and decisive leadership","Ability to turn plans into concrete action","Accountability and follow-through","Efficient meeting management and decision-making","Practical solutions grounded in experience","Willingness to take responsibility when needed","Clear expectations and performance standards","Systematic approach to complex problems","Energy and drive to get things done on time"],
+needs:["Clear authority and decision-making power","Competent team members who deliver results","Logical and efficient processes","Respect for their role and leadership","Honest, direct feedback without drama","Measurable goals and clear timelines","People who follow through on commitments","Recognition for results achieved","Structured meetings with clear outcomes","Facts and data to support proposals"],
+irritates:["Incompetence or lack of effort","Endless discussion without decisions","People who miss deadlines repeatedly","Emotional arguments replacing logical analysis","Resistance to established procedures","Lack of accountability","Vague goals and unclear responsibilities","People who challenge authority without alternatives","Disorganized meetings and wasted time","Excuses instead of solutions"],
+challenges:["Listening patiently to different viewpoints","Considering the emotional impact of decisions","Slowing down to include quieter team members","Adapting leadership style to different people","Accepting that some problems need time, not action","Showing vulnerability or admitting uncertainty","Valuing process and relationship alongside results","Being open to unconventional approaches","Giving positive feedback as readily as criticism","Recognizing that efficiency isn't always the priority"]
+},
+fr:{
+about:["Décisif, organisé et orienté résultats","Leader naturel qui prend les choses en main","Valorise l'ordre, la structure et la responsabilité","Communicateur direct et franc","S'appuie sur la logique et les méthodes éprouvées","Fort sens de la responsabilité envers le groupe","Exige des standards élevés pour soi et les autres","Préfère l'action aux discussions prolongées","Respecte la chaîne de commandement","Excelle dans la mise en œuvre et la gestion des opérations"],
+bring:["Compétences organisationnelles fortes","Direction claire et leadership décisif","Capacité à transformer les plans en actions","Responsabilité et suivi","Gestion efficace des réunions et des décisions","Solutions pratiques basées sur l'expérience","Prise de responsabilité quand nécessaire","Attentes claires et standards de performance","Approche systématique des problèmes complexes","Énergie et dynamisme pour respecter les délais"],
+needs:["Autorité claire et pouvoir de décision","Équipiers compétents qui livrent des résultats","Processus logiques et efficaces","Respect de son rôle et de son leadership","Feedback honnête et direct","Objectifs mesurables et délais clairs","Personnes qui tiennent leurs engagements","Reconnaissance des résultats obtenus","Réunions structurées avec résultats clairs","Faits et données pour appuyer les propositions"],
+irritates:["Incompétence ou manque d'effort","Discussions interminables sans décisions","Non-respect répété des délais","Arguments émotionnels remplaçant la logique","Résistance aux procédures établies","Manque de responsabilisation","Objectifs vagues","Remise en cause de l'autorité sans alternatives","Réunions désorganisées","Excuses au lieu de solutions"],
+challenges:["Écouter patiemment les différents points de vue","Considérer l'impact émotionnel des décisions","Ralentir pour inclure les plus discrets","Adapter son style de leadership","Accepter que certains problèmes nécessitent du temps","Montrer sa vulnérabilité","Valoriser la relation autant que le résultat","Être ouvert aux approches non conventionnelles","Donner du feedback positif aussi facilement que des critiques","Reconnaître que l'efficacité n'est pas toujours la priorité"]
+},
+ua:{
+about:["Рішучий, організований, орієнтований на результат","Природний лідер","Цінує порядок і відповідальність","Прямий комунікатор","Спирається на логіку та досвід","Відповідальний перед групою","Високі стандарти для себе та інших","Віддає перевагу дії","Поважає ієрархію","Відмінний у впровадженні планів"],
+bring:["Організаційні навички","Чітке лідерство","Перетворення планів у дії","Відповідальність","Ефективне управління нарадами","Практичні рішення","Готовність брати відповідальність","Чіткі очікування","Системний підхід","Енергія і драйв"],
+needs:["Чіткі повноваження","Компетентна команда","Логічні процеси","Повага до ролі","Чесний зворотний зв'язок","Вимірювані цілі","Виконання зобов'язань","Визнання результатів","Структуровані наради","Факти та дані"],
+irritates:["Некомпетентність","Нескінченні обговорення","Порушення термінів","Емоційні аргументи","Опір процедурам","Безвідповідальність","Нечіткі цілі","Виклик авторитету без альтернатив","Безладні наради","Виправдання замість рішень"],
+challenges:["Терпляче слухання","Врахування емоційного впливу","Уповільнення для тихіших колег","Адаптація стилю лідерства","Прийняття що деякі проблеми потребують часу","Показ вразливості","Цінування відносин","Відкритість до нового","Позитивний зворотний зв'язок","Визнання що ефективність не завжди пріоритет"]
+}},
+
+{type:"ESFJ",color:"#E91E63",group:"SJ",
+en:{
+about:["Warm, people-oriented and highly organized","Naturally attentive to others' needs and feelings","Value cooperation, loyalty and group harmony","Excellent at creating structured, caring environments","Communicate openly and encourage participation","Remember personal details and use them thoughtfully","Prefer consensus and collaborative decision-making","Take on caretaker role naturally","Respect traditions and established social norms","Work best when they see direct impact on people"],
+bring:["Strong interpersonal skills that build team cohesion","Practical organization combined with personal warmth","Ability to notice and address team dynamics issues","Natural facilitation of group discussions","Consistent follow-through on team commitments","Creation of inclusive, welcoming work environments","Bridge between task requirements and people needs","Recognition and celebration of team achievements","Smooth coordination of logistics and schedules","Genuine care for each team member's wellbeing"],
+needs:["Positive, appreciative team atmosphere","Clear role in supporting the team","Regular personal feedback and recognition","Harmonious relationships with colleagues","Structured processes with human consideration","Feeling valued and needed by the team","Open communication and no hidden agendas","Collaborative rather than competitive environment","Opportunity to help others develop","Respect for their organizational contributions"],
+irritates:["Cold, impersonal work environments","People who are dismissive or rude","Unresolved conflicts left to fester","Lack of appreciation for service to the team","Decisions made without consulting affected people","Excessive criticism with no constructive intent","Individualism that undermines team spirit","Theoretical approaches ignoring real human needs","People who don't participate in team activities","Abrupt changes that disrupt relationships"],
+challenges:["Handling direct conflict or confrontation","Not taking criticism personally","Making tough decisions that disappoint people","Focusing on strategy over immediate people needs","Accepting that not all disagreements can be resolved","Prioritizing their own needs over the team's","Giving critical feedback directly","Stepping back from the caretaker role","Adapting when consensus isn't possible","Separating personal feelings from professional decisions"]
+},
+fr:{
+about:["Chaleureux, orienté personnes et très organisé","Naturellement attentif aux besoins des autres","Valorise la coopération, la loyauté et l'harmonie","Excellent pour créer des environnements structurés et bienveillants","Communique ouvertement et encourage la participation","Se souvient des détails personnels","Préfère le consensus et les décisions collaboratives","Assume naturellement le rôle de protecteur","Respecte les traditions et normes sociales","Donne le meilleur quand il voit l'impact sur les personnes"],
+bring:["Compétences interpersonnelles fortes","Organisation pratique avec chaleur humaine","Capacité à repérer les dynamiques d'équipe","Facilitation naturelle des discussions","Suivi constant des engagements","Création d'environnements inclusifs","Pont entre tâches et besoins humains","Reconnaissance et célébration des réussites","Coordination fluide","Attention sincère au bien-être de chacun"],
+needs:["Atmosphère positive et reconnaissante","Rôle clair de soutien","Feedback régulier et reconnaissance","Relations harmonieuses","Processus structurés avec considération humaine","Se sentir valorisé et utile","Communication ouverte et transparente","Environnement collaboratif","Opportunité d'aider les autres","Respect de ses contributions organisationnelles"],
+irritates:["Environnements froids et impersonnels","Personnes méprisantes ou impolies","Conflits non résolus","Manque d'appréciation","Décisions sans consultation","Critiques excessives non constructives","Individualisme sapant l'esprit d'équipe","Théorie ignorant les besoins humains","Non-participation aux activités d'équipe","Changements brusques perturbant les relations"],
+challenges:["Gérer les conflits directs","Ne pas prendre les critiques personnellement","Prendre des décisions difficiles","Se concentrer sur la stratégie","Accepter que tous les désaccords ne se résolvent pas","Prioriser ses propres besoins","Donner du feedback critique","Se retirer du rôle de protecteur","S'adapter sans consensus","Séparer sentiments personnels et décisions professionnelles"]
+},
+ua:{
+about:["Теплий, орієнтований на людей і організований","Уважний до потреб інших","Цінує співпрацю та гармонію","Створює структуровані турботливі середовища","Відкрито спілкується","Пам'ятає особисті деталі","Надає перевагу консенсусу","Природний опікун","Поважає традиції","Найкращий коли бачить вплив на людей"],
+bring:["Міжособистісні навички","Організація з теплотою","Увага до динаміки команди","Фасилітація обговорень","Виконання зобов'язань","Інклюзивне середовище","Міст між завданнями та людьми","Визнання досягнень","Координація","Турбота про кожного"],
+needs:["Позитивна атмосфера","Чітка роль підтримки","Регулярний зворотний зв'язок","Гармонійні стосунки","Структура з людяністю","Відчуття потрібності","Відкрита комунікація","Співпраця а не конкуренція","Можливість допомагати","Повага до внеску"],
+irritates:["Холодне середовище","Зневажливі люди","Невирішені конфлікти","Невдячність","Рішення без консультацій","Надмірна критика","Індивідуалізм","Теорія без людей","Неучасть у командних активностях","Різкі зміни"],
+challenges:["Конфронтація","Не приймати критику особисто","Складні рішення","Стратегія vs потреби людей","Не всі конфлікти вирішуються","Пріоритет власних потреб","Критичний зворотний зв'язок","Відпустити роль опікуна","Діяти без консенсусу","Відділити почуття від рішень"]
+}},
+
+// ===== SP TYPES =====
+{type:"ISTP",color:"#455A64",group:"SP",
+en:{
+about:["Practical, analytical and quietly observant","Excel at understanding how things work","Prefer hands-on problem solving over discussion","Independent and value personal autonomy","Calm under pressure — thrive in crisis situations","Economy of words — say what's needed, no more","Flexible and adaptable when it matters","Logical and objective in their analysis","Prefer to work at their own pace","Trust direct experience over theory"],
+bring:["Cool-headed crisis management","Technical expertise and practical problem solving","Ability to cut through complexity to find solutions","Efficient, no-nonsense approach to tasks","Flexibility to adapt quickly to changing situations","Independent thinking that challenges groupthink","Realistic risk assessment","Troubleshooting skills that save time and resources","Calm presence that steadies the team under pressure","Hands-on ability to fix what's broken"],
+needs:["Autonomy to work in their own way","Freedom from unnecessary rules and bureaucracy","Practical problems to solve","Space and quiet to concentrate","Respect for their competence without micromanagement","Logical explanations for decisions","Variety and new challenges to stay engaged","Minimal meetings and paperwork","Direct, honest communication","Freedom to take action when they see what's needed"],
+irritates:["Micromanagement and excessive oversight","Lengthy meetings about things that could be an email","Emotional drama in the workplace","Rigid rules that don't serve a practical purpose","People who talk too much and do too little","Being forced to follow inefficient processes","Having to explain the same thing repeatedly","Unnecessary formality and protocol","Theoretical solutions disconnected from reality","Being asked to share feelings in group settings"],
+challenges:["Communicating their thought process to others","Engaging in long-term planning and strategy","Expressing appreciation and encouragement","Participating actively in team-building activities","Following processes they find unnecessary","Being patient with less competent colleagues","Sharing knowledge proactively rather than when asked","Considering the emotional side of decisions","Committing to long-term team goals","Maintaining consistent communication with the team"]
+},
+fr:{
+about:["Pratique, analytique et discrètement observateur","Excelle dans la compréhension du fonctionnement des choses","Préfère la résolution pratique aux discussions","Indépendant et valorise l'autonomie","Calme sous pression, s'épanouit en crise","Économe en mots — dit ce qu'il faut, pas plus","Flexible et adaptable quand nécessaire","Logique et objectif","Préfère travailler à son rythme","Fait confiance à l'expérience directe"],
+bring:["Gestion de crise sang-froid","Expertise technique et résolution pratique","Capacité à simplifier la complexité","Approche efficace et pragmatique","Flexibilité face aux changements","Pensée indépendante qui challenge le conformisme","Évaluation réaliste des risques","Compétences en dépannage","Présence calme qui stabilise l'équipe","Capacité pratique à réparer ce qui est cassé"],
+needs:["Autonomie dans sa façon de travailler","Liberté par rapport aux règles inutiles","Problèmes pratiques à résoudre","Espace et calme pour se concentrer","Respect de sa compétence sans micro-management","Explications logiques des décisions","Variété et nouveaux défis","Minimum de réunions et paperasse","Communication directe et honnête","Liberté d'agir quand c'est nécessaire"],
+irritates:["Micro-management et surveillance excessive","Réunions interminables inutiles","Drames émotionnels au travail","Règles rigides sans utilité pratique","Personnes qui parlent beaucoup et font peu","Processus inefficaces imposés","Devoir répéter la même chose","Formalités et protocoles inutiles","Solutions théoriques déconnectées","Devoir partager ses sentiments en groupe"],
+challenges:["Communiquer son processus de réflexion","Planification à long terme","Exprimer appréciation et encouragement","Participer au team-building","Suivre des processus jugés inutiles","Patience avec les moins compétents","Partager les connaissances proactivement","Considérer le côté émotionnel","S'engager sur des objectifs à long terme","Maintenir une communication régulière"]
+},
+ua:{about:["Практичний і спостережливий","Розуміє як речі працюють","Практичне вирішення проблем","Незалежний","Спокійний під тиском","Економний у словах","Гнучкий","Логічний","Працює у своєму темпі","Довіряє досвіду"],
+bring:["Управління кризами","Технічна експертиза","Спрощення складного","Ефективний підхід","Адаптивність","Незалежне мислення","Оцінка ризиків","Навички усунення несправностей","Спокійна присутність","Практичне вирішення"],
+needs:["Автономія","Свобода від бюрократії","Практичні задачі","Простір для концентрації","Повага без мікроменеджменту","Логічні пояснення","Різноманітність","Мінімум нарад","Пряма комунікація","Свобода дій"],
+irritates:["Мікроменеджмент","Довгі наради","Емоційні драми","Жорсткі правила","Багато розмов мало дій","Неефективні процеси","Повторення","Зайві формальності","Відірвані від реальності рішення","Обговорення почуттів у групі"],
+challenges:["Комунікація процесу мислення","Довгострокове планування","Вираження вдячності","Участь у тімбілдингу","Дотримання процесів","Терпіння до менш компетентних","Проактивний обмін знаннями","Емоційна сторона рішень","Довгострокові цілі","Регулярна комунікація"]
+}},
+
+{type:"ISFP",color:"#00695C",group:"SP",
+en:{
+about:["Gentle, caring and quietly passionate","Guided by strong internal values","Appreciate beauty, authenticity and meaning","Prefer showing care through actions, not words","Live fully in the present moment","Highly sensitive to others' emotions","Flexible and open to new experiences","Need personal space and autonomy","Dislike conflict but will stand firm on core values","Express themselves through concrete, tangible contributions"],
+bring:["Authentic personal presence and genuine warmth","Sensitivity to team atmosphere and unspoken tensions","Willingness to help quietly without seeking credit","Creative, aesthetically-minded contributions","Ability to stay calm and centered in chaos","Strong awareness of ethical and human dimensions","Flexibility and adaptability when plans change","Grounded, practical support to colleagues","A reminder to slow down and appreciate the human side","Loyalty and deep personal commitment to the team"],
+needs:["Freedom to do meaningful work in their own way","Recognition of their unique contributions","Peaceful, low-conflict work environment","Alignment between personal values and team objectives","Space to process and reflect privately","Authentic, genuine relationships with colleagues","Flexibility rather than rigid schedules","Appreciation expressed through actions not just words","Protection of their personal boundaries","Work that connects to something they care about"],
+irritates:["Pressure to conform to impersonal systems","Criticism of their values or personal choices","Aggressive or confrontational communication styles","Inauthentic behaviour or corporate politics","Excessive bureaucracy and meaningless procedures","Being asked to justify every feeling or decision","Loud, dominating personalities that leave no space","Disregard for the human impact of decisions","Being rushed when they need time to reflect","Environments that value competition over cooperation"],
+challenges:["Speaking up assertively in group settings","Handling direct confrontation when necessary","Planning long-term rather than responding to the moment","Separating personal feelings from work situations","Accepting imperfection in themselves and projects","Giving critical feedback even when it feels uncomfortable","Promoting their own achievements","Staying engaged during abstract strategy discussions","Setting clear boundaries before reaching burnout","Making decisions quickly when time pressure demands it"]
+},
+fr:{
+about:["Doux, bienveillant et discrètement passionné","Guidé par de fortes valeurs internes","Apprécie la beauté, l'authenticité et le sens","Montre son attention par les actes","Vit pleinement le moment présent","Très sensible aux émotions des autres","Flexible et ouvert aux nouvelles expériences","A besoin d'espace personnel","N'aime pas les conflits mais reste ferme sur ses valeurs","S'exprime par des contributions concrètes"],
+bring:["Présence authentique et chaleur sincère","Sensibilité à l'atmosphère d'équipe","Aide discrète sans chercher la reconnaissance","Contributions créatives et esthétiques","Calme au milieu du chaos","Conscience éthique et humaine","Flexibilité quand les plans changent","Soutien pratique et ancré","Un rappel de l'importance du côté humain","Loyauté et engagement personnel profond"],
+needs:["Liberté de faire un travail qui a du sens","Reconnaissance des contributions uniques","Environnement paisible","Alignement valeurs personnelles et objectifs","Espace pour réfléchir en privé","Relations authentiques","Flexibilité plutôt que rigidité","Appréciation par les actes","Protection des limites personnelles","Travail connecté à ce qui compte"],
+irritates:["Pression à se conformer","Critique des valeurs personnelles","Communication agressive","Inauthenticité et politique","Bureaucratie excessive","Justifier chaque sentiment","Personnalités dominantes","Mépris de l'impact humain","Être pressé de réfléchir","Compétition plutôt que coopération"],
+challenges:["Parler avec assurance en groupe","Gérer la confrontation directe","Planifier à long terme","Séparer sentiments et travail","Accepter l'imperfection","Donner du feedback critique","Promouvoir ses réalisations","Rester engagé lors de discussions abstraites","Poser des limites avant le burnout","Décider rapidement sous pression"]
+},
+ua:{about:["Ніжний і тихо пристрасний","Керується внутрішніми цінностями","Цінує красу та автентичність","Турбується через дії","Живе моментом","Чутливий до емоцій","Гнучкий","Потребує простору","Не любить конфлікти","Конкретні внески"],
+bring:["Автентична присутність","Чутливість до атмосфери","Тиха допомога","Креативні внески","Спокій у хаосі","Етична свідомість","Адаптивність","Практична підтримка","Нагадування про людяність","Лояльність"],
+needs:["Свобода значущої роботи","Визнання унікальності","Мирне середовище","Відповідність цінностям","Простір для рефлексії","Автентичні стосунки","Гнучкість","Вдячність через дії","Захист меж","Значуща робота"],
+irritates:["Тиск відповідності","Критика цінностей","Агресивна комунікація","Нещирість","Бюрократія","Виправдання почуттів","Домінуючі особистості","Ігнорування людського впливу","Поспіх","Конкуренція"],
+challenges:["Впевнено говорити в групі","Пряма конфронтація","Довгострокове планування","Відділення почуттів","Прийняття недосконалості","Критичний зворотний зв'язок","Просування досягнень","Абстрактні обговорення","Встановлення меж","Швидкі рішення"]
+}},
+
+{type:"ESTP",color:"#E65100",group:"SP",
+en:{
+about:["Energetic, pragmatic and action-oriented","Thrive on solving immediate, tangible problems","Excellent at reading situations and people","Prefer doing over discussing","Resourceful and adaptable in any environment","Direct communicators who get to the point","Enjoy taking calculated risks","Live in the present and trust their senses","Competitive and enjoy a good challenge","Learn best through hands-on experience"],
+bring:["Ability to act decisively in the moment","Energetic drive that motivates the team","Practical, resourceful problem solving","Skill at reading people and situations quickly","Willingness to take initiative and calculated risks","Ability to negotiate and influence effectively","Talent for simplifying complex situations","Adaptability to changing circumstances","Confidence that inspires action in others","Real-time troubleshooting under pressure"],
+needs:["Freedom to act and make things happen","Tangible, practical challenges to solve","Fast-paced environment with variety","Minimal bureaucracy and red tape","Results-based evaluation, not process-based","Direct feedback, not sugar-coated messages","Opportunities to take initiative","Physical space to move and interact","Recognition of practical achievements","Colleagues who can keep up with the pace"],
+irritates:["Endless planning with no action","Slow, bureaucratic decision-making","Overthinking and analysis paralysis","Theoretical discussions without practical relevance","Being constrained by rigid rules","People who avoid taking responsibility","Too much focus on feelings over results","Meetings that could have been a conversation","Having to justify every decision in detail","Colleagues who resist change and new approaches"],
+challenges:["Following through on long-term commitments","Considering long-term consequences of actions","Being patient with slower team processes","Planning ahead rather than reacting in the moment","Acknowledging the emotional needs of colleagues","Completing detailed documentation","Listening fully before jumping to solutions","Adapting communication for sensitive topics","Sticking with routine tasks when excitement fades","Recognizing the value of reflection before action"]
+},
+fr:{
+about:["Énergique, pragmatique et orienté action","S'épanouit dans la résolution de problèmes concrets","Excellent pour lire les situations et les personnes","Préfère faire plutôt que discuter","Débrouillard et adaptable","Communicateur direct","Aime les risques calculés","Vit dans le présent","Compétitif","Apprend par l'expérience pratique"],
+bring:["Capacité d'agir de manière décisive","Énergie qui motive l'équipe","Résolution pratique et débrouillarde","Lecture rapide des gens et situations","Prise d'initiative et risques calculés","Négociation et influence","Simplification des situations complexes","Adaptabilité","Confiance qui inspire l'action","Dépannage en temps réel sous pression"],
+needs:["Liberté d'agir","Défis pratiques et tangibles","Rythme rapide et variété","Minimum de bureaucratie","Évaluation sur les résultats","Feedback direct","Opportunités d'initiative","Espace de mouvement","Reconnaissance des réalisations","Collègues qui suivent le rythme"],
+irritates:["Planification sans fin sans action","Décisions bureaucratiques lentes","Suranalyse et paralysie","Théorie sans pratique","Règles rigides","Évitement de la responsabilité","Trop de focus sur les sentiments","Réunions inutiles","Justifier chaque décision","Résistance au changement"],
+challenges:["Suivi des engagements long terme","Conséquences à long terme","Patience avec les processus","Planifier plutôt que réagir","Besoins émotionnels des collègues","Documentation détaillée","Écouter avant de proposer","Communication sur les sujets sensibles","Tâches routinières","Réflexion avant l'action"]
+},
+ua:{about:["Енергійний і прагматичний","Вирішує конкретні проблеми","Читає ситуації","Діє а не обговорює","Винахідливий","Прямий комунікатор","Розраховані ризики","Живе моментом","Конкурентний","Вчиться на практиці"],
+bring:["Рішучі дії","Енергія для команди","Практичне вирішення","Читання людей","Ініціатива","Переговори","Спрощення складного","Адаптивність","Впевненість","Усунення проблем"],
+needs:["Свобода дій","Практичні виклики","Швидкий темп","Мінімум бюрократії","Оцінка за результатами","Прямий зворотний зв'язок","Ініціатива","Простір для руху","Визнання","Колеги що встигають"],
+irritates:["Планування без дій","Повільні рішення","Надмірний аналіз","Теорія без практики","Жорсткі правила","Уникання відповідальності","Почуття замість результатів","Зайві наради","Виправдання рішень","Опір змінам"],
+challenges:["Довгострокові зобов'язання","Довгострокові наслідки","Терпіння","Планування","Емоційні потреби колег","Документація","Слухати до кінця","Чутливі теми","Рутинні завдання","Рефлексія перед дією"]
+}},
+
+{type:"ESFP",color:"#F57C00",group:"SP",
+en:{
+about:["Enthusiastic, spontaneous and people-oriented","Natural entertainers who bring energy to any room","Pragmatic and focused on what's happening right now","Generous with time, attention and resources","Excellent at reading and responding to people's moods","Prefer hands-on involvement over planning","Value fun, variety and human connection","Highly observant of their physical environment","Communicate with warmth and humour","Motivated by making a positive impact on people around them"],
+bring:["Infectious enthusiasm that lifts team morale","Ability to connect with anyone at any level","Talent for making work enjoyable and engaging","Quick response to emerging situations","Strong awareness of team mood and energy","Practical, hands-on approach to problem solving","Skill at defusing tension with humour","Natural networking and relationship building","Spontaneous creativity and fresh ideas","Ability to rally the team during tough times"],
+needs:["Fun, dynamic work environment","Interaction with people throughout the day","Recognition and positive feedback frequently","Freedom from too many rules and constraints","Variety in tasks and responsibilities","Opportunity to help people directly","Collaborative, supportive team atmosphere","Tangible, visible results from their efforts","Flexibility in how and when they work","Appreciation of their energy and contributions"],
+irritates:["Rigid, overly formal work environments","Being isolated from people for long periods","Excessive paperwork and administrative tasks","Negativity and constant criticism","Being ignored or undervalued","Long theoretical discussions without action","Controlling or micromanaging leadership","Having to follow rigid schedules","People who take themselves too seriously","Environments that suppress spontaneity and fun"],
+challenges:["Staying focused on long-term priorities","Completing tasks that are routine or boring","Managing time and meeting all deadlines","Having difficult conversations about performance","Planning ahead rather than living in the moment","Saying no to social opportunities for work commitments","Dealing with detailed analysis and paperwork","Making decisions that disappoint people","Maintaining discipline over extended projects","Accepting critical feedback without deflecting"]
+},
+fr:{
+about:["Enthousiaste, spontané et orienté personnes","Animateur naturel qui apporte de l'énergie","Pragmatique et ancré dans le présent","Généreux avec son temps et son attention","Excellent pour lire les humeurs","Préfère l'implication directe à la planification","Valorise le plaisir, la variété et les relations","Très observateur de l'environnement","Communique avec chaleur et humour","Motivé par l'impact positif sur les autres"],
+bring:["Enthousiasme contagieux","Connexion avec tous","Rend le travail agréable","Réponse rapide aux situations","Conscience de l'énergie de l'équipe","Approche pratique","Humour pour désamorcer les tensions","Networking naturel","Créativité spontanée","Capacité à rallier l'équipe"],
+needs:["Environnement dynamique et fun","Interaction avec les personnes","Reconnaissance fréquente","Liberté par rapport aux contraintes","Variété des tâches","Aider les gens directement","Atmosphère collaborative","Résultats visibles","Flexibilité","Appréciation de son énergie"],
+irritates:["Environnements rigides et formels","Isolement prolongé","Paperasse excessive","Négativité constante","Être ignoré ou sous-évalué","Discussions théoriques sans action","Leadership contrôlant","Horaires rigides","Personnes trop sérieuses","Suppression de la spontanéité"],
+challenges:["Rester focalisé sur le long terme","Tâches routinières","Gestion du temps","Conversations difficiles sur la performance","Planifier plutôt que vivre l'instant","Dire non aux opportunités sociales","Analyses détaillées","Décisions qui déçoivent","Discipline sur les projets longs","Accepter les critiques"]
+},
+ua:{about:["Ентузіастичний і спонтанний","Приносить енергію","Прагматичний","Щедрий","Читає настрої","Практичний підхід","Цінує веселощі","Спостережливий","Теплий комунікатор","Позитивний вплив"],
+bring:["Заразливий ентузіазм","Зв'язок з кожним","Робить роботу приємною","Швидка реакція","Відчуття настрою команди","Практичний підхід","Гумор","Нетворкінг","Спонтанна креативність","Згуртування команди"],
+needs:["Динамічне середовище","Спілкування","Часте визнання","Свобода","Різноманітність","Допомога людям","Співпраця","Видимі результати","Гнучкість","Вдячність"],
+irritates:["Формальність","Ізоляція","Паперова робота","Негативізм","Ігнорування","Теорія без дій","Контроль","Жорсткий графік","Надмірна серйозність","Пригнічення спонтанності"],
+challenges:["Довгострокові пріоритети","Рутинні завдання","Управління часом","Складні розмови","Планування","Відмова від соціальних можливостей","Детальний аналіз","Розчаровуючі рішення","Дисципліна","Прийняття критики"]
+}},
+
+// ===== NF TYPES =====
+{type:"INFJ",color:"#4A148C",group:"NF",
+en:{
+about:["Insightful, idealistic and deeply committed","Seek meaning and purpose in everything","Excellent at understanding complex people dynamics","Private but care intensely about others","Guided by a clear internal vision","Value depth over breadth in relationships","Quietly determined and persistent","Communicate with warmth when they trust","See patterns and possibilities others miss","Often feel different from the majority"],
+bring:["Deep insight into team dynamics and individual motivations","Ability to see the bigger purpose behind daily work","Creative solutions that address root causes","Thoughtful, inclusive approach to decision-making","Talent for inspiring others toward a shared vision","Empathy that helps resolve interpersonal conflicts","Strategic thinking combined with people awareness","Ability to anticipate potential problems","Written communication that clarifies complex ideas","A moral compass that keeps the team aligned with values"],
+needs:["Meaningful work aligned with personal values","Depth and authenticity in relationships","Time alone to recharge and process ideas","Appreciation for their insights and ideas","A vision or purpose to work toward","Harmony within the team","Trust and psychological safety","Opportunity to work on complex, meaningful problems","Autonomy in how they approach their work","Regular one-on-one connections rather than large groups"],
+irritates:["Superficial interactions and small talk","Decisions that ignore ethical implications","Lack of vision or purpose in the work","Inauthentic or manipulative behaviour","Being asked to focus only on short-term results","Constant interruptions to their thinking time","Disregard for people's deeper needs","Being misunderstood or having insights dismissed","Environments focused solely on profit over purpose","Persistent conflict that no one addresses"],
+challenges:["Setting realistic expectations for themselves","Not absorbing others' emotional states","Being direct when they disagree","Letting go of their vision when circumstances change","Taking care of practical details they find tedious","Accepting good enough instead of perfect","Not overthinking simple situations","Sharing their ideas before they're fully formed","Managing energy in highly social environments","Trusting that not every conflict needs their intervention"]
+},
+fr:{
+about:["Perspicace, idéaliste et profondément engagé","Cherche du sens et un but en tout","Comprend les dynamiques humaines complexes","Réservé mais se soucie intensément des autres","Guidé par une vision interne claire","Valorise la profondeur dans les relations","Discrètement déterminé et persévérant","Communique avec chaleur quand il fait confiance","Voit des schémas que d'autres manquent","Se sent souvent différent de la majorité"],
+bring:["Vision profonde des dynamiques d'équipe","Capacité à voir le sens derrière le quotidien","Solutions créatives aux causes profondes","Approche réfléchie et inclusive","Talent pour inspirer vers une vision commune","Empathie pour résoudre les conflits","Pensée stratégique avec conscience des personnes","Anticipation des problèmes","Communication écrite qui clarifie","Boussole morale pour l'équipe"],
+needs:["Travail significatif aligné avec ses valeurs","Profondeur et authenticité","Temps seul pour recharger","Appréciation de ses idées","Vision ou but à poursuivre","Harmonie dans l'équipe","Confiance et sécurité psychologique","Problèmes complexes et significatifs","Autonomie dans l'approche","Connexions individuelles plutôt que grands groupes"],
+irritates:["Interactions superficielles","Décisions ignorant l'éthique","Absence de vision","Comportement inauthentique","Focus uniquement court terme","Interruptions constantes","Mépris des besoins profonds","Être incompris","Profit avant le sens","Conflits persistants non traités"],
+challenges:["Attentes réalistes envers soi-même","Ne pas absorber les émotions des autres","Être direct en cas de désaccord","Lâcher prise sur sa vision","Détails pratiques","Accepter le suffisamment bon","Ne pas trop réfléchir","Partager les idées en cours","Gérer l'énergie en contexte social","Accepter que tout ne nécessite pas son intervention"]
+},
+ua:{about:["Проникливий та ідеалістичний","Шукає сенс","Розуміє складні динаміки","Стриманий але турботливий","Внутрішнє бачення","Цінує глибину","Тихо рішучий","Теплий коли довіряє","Бачить патерни","Почувається інакшим"],
+bring:["Глибоке розуміння динаміки","Бачення мети","Креативні рішення","Інклюзивний підхід","Натхнення до спільної візії","Емпатія","Стратегічне мислення","Передбачення проблем","Ясна комунікація","Моральний компас"],
+needs:["Значуща робота","Глибина стосунків","Час наодинці","Визнання ідей","Мета","Гармонія","Довіра","Складні задачі","Автономія","Індивідуальні зустрічі"],
+irritates:["Поверхневість","Неетичні рішення","Відсутність бачення","Нещирість","Лише короткостроковий фокус","Переривання","Ігнорування потреб","Нерозуміння","Прибуток замість мети","Невирішені конфлікти"],
+challenges:["Реалістичні очікування","Не поглинати чужі емоції","Прямота","Відпустити бачення","Практичні деталі","Прийняти достатньо добре","Не переобдумувати","Ділитися незавершеними ідеями","Енергія в соціумі","Не втручатися в кожен конфлікт"]
+}},
+
+{type:"INFP",color:"#7B1FA2",group:"NF",
+en:{
+about:["Idealistic, empathetic and deeply values-driven","Rich inner world of ideas and emotions","Seek authenticity and meaning in their work","Quietly passionate about causes they believe in","Highly creative and open to possibilities","Sensitive to criticism but resilient in defending values","Prefer one-on-one connections over group interactions","Need work that aligns with who they are","Flexible and adaptable as long as values aren't compromised","See potential in people and situations others overlook"],
+bring:["Deep empathy that creates psychological safety","Creative, outside-the-box thinking","Ability to see potential in people and ideas","Passionate advocacy for values and ethics","Written communication that inspires and moves","Sensitivity to team atmosphere and unspoken issues","Ability to find meaning in the team's work","Mediation skills in values-based conflicts","Authenticity that builds trust over time","Vision for a better way of working together"],
+needs:["Alignment between personal values and work purpose","Creative freedom and autonomy","Authentic, genuine relationships with colleagues","Time and space for reflection and ideation","Encouragement without pressure","Recognition of the quality and meaning of their work","Low-conflict, supportive environment","Flexibility in schedules and working methods","Feeling that their work contributes to something larger","Understanding when they need to withdraw and recharge"],
+irritates:["Inauthentic behaviour or corporate doublespeak","Rigid hierarchies that suppress individual expression","Criticism that attacks who they are rather than what they did","Pressure to conform to meaningless processes","Competitive environments that pit people against each other","Being micromanaged or having creativity constrained","Injustice or unfair treatment of anyone","Superficial interactions that avoid depth","Being rushed when ideas need time to develop","Cold, transactional relationships at work"],
+challenges:["Meeting deadlines when perfectionism takes over","Handling direct conflict without withdrawing","Making practical decisions when ideals conflict with reality","Accepting that not every project can be meaningful","Being decisive when multiple values compete","Giving critical feedback without agonizing","Promoting their own contributions","Staying grounded in practical constraints","Not taking workplace dynamics too personally","Following through on routine administrative tasks"]
+},
+fr:{
+about:["Idéaliste, empathique et guidé par ses valeurs","Monde intérieur riche d'idées et d'émotions","Cherche l'authenticité et le sens","Discrètement passionné","Très créatif","Sensible aux critiques mais résilient pour ses valeurs","Préfère les connexions individuelles","Besoin d'un travail aligné","Flexible tant que les valeurs sont respectées","Voit le potentiel que d'autres manquent"],
+bring:["Empathie profonde créant de la sécurité","Pensée créative et originale","Capacité à voir le potentiel","Défense passionnée des valeurs","Communication écrite inspirante","Sensibilité à l'atmosphère d'équipe","Recherche de sens","Médiation dans les conflits de valeurs","Authenticité qui construit la confiance","Vision d'une meilleure collaboration"],
+needs:["Alignement valeurs-travail","Liberté créative et autonomie","Relations authentiques","Temps de réflexion","Encouragement sans pression","Reconnaissance de la qualité","Environnement paisible","Flexibilité","Contribuer à quelque chose de plus grand","Compréhension de son besoin de retrait"],
+irritates:["Inauthenticité","Hiérarchies rigides","Critiques personnelles","Processus sans sens","Compétition entre collègues","Micro-management","Injustice","Superficialité","Être pressé","Relations froides et transactionnelles"],
+challenges:["Respecter les délais face au perfectionnisme","Gérer les conflits sans se retirer","Décisions pratiques vs idéaux","Accepter que tout ne peut être significatif","Être décisif","Donner du feedback critique","Promouvoir ses contributions","Rester ancré dans le concret","Ne pas trop personnaliser","Tâches administratives routinières"]
+},
+ua:{about:["Ідеалістичний та емпатичний","Багатий внутрішній світ","Шукає автентичність","Тихо пристрасний","Креативний","Чутливий до критики","Індивідуальні зв'язки","Робота відповідно до цінностей","Гнучкий","Бачить потенціал"],
+bring:["Глибока емпатія","Креативне мислення","Бачення потенціалу","Захист цінностей","Натхненна комунікація","Чутливість до атмосфери","Пошук сенсу","Медіація","Автентичність","Візія кращої співпраці"],
+needs:["Відповідність цінностям","Творча свобода","Автентичні стосунки","Час для рефлексії","Підтримка без тиску","Визнання якості","Мирне середовище","Гнучкість","Значущий внесок","Розуміння потреби у відпочинку"],
+irritates:["Нещирість","Жорстка ієрархія","Особиста критика","Безглузді процеси","Конкуренція","Мікроменеджмент","Несправедливість","Поверхневість","Поспіх","Холодні стосунки"],
+challenges:["Терміни vs перфекціонізм","Конфлікти","Практичні рішення","Не все значуще","Рішучість","Критичний зворотний зв'язок","Просування досягнень","Практичні обмеження","Не приймати особисто","Рутинні завдання"]
+}},
+
+{type:"ENFJ",color:"#AD1457",group:"NF",
+en:{
+about:["Charismatic, empathetic and inspiring leaders","Naturally focused on developing people's potential","Excellent communicators who connect with any audience","Organized and proactive in pursuing goals","Value harmony but willing to address difficult issues","See the best in people and encourage growth","Skilled at facilitating group processes","Take on responsibility for others' wellbeing","Future-oriented with a focus on human impact","Strong intuition about interpersonal dynamics"],
+bring:["Inspirational leadership that brings out the best in others","Exceptional ability to build consensus and alignment","Natural talent for mentoring and developing team members","Skill at articulating a compelling vision","Facilitation of productive and inclusive meetings","Ability to navigate complex interpersonal situations","Energy and optimism that motivates the team","Bridge-building between different perspectives and people","Proactive identification of team development needs","Creation of a positive, growth-oriented team culture"],
+needs:["Opportunity to make a meaningful impact on people","Authentic, values-based organizational culture","Appreciation for their leadership and mentoring","Collaborative partnerships with colleagues","Clear sense of purpose and direction","Feedback that acknowledges their efforts","Support for their own development, not just others'","Balance between giving and receiving","Trust from leadership to develop their team","Alignment between organizational values and practices"],
+irritates:["Apathy or indifference toward personal development","Toxic, competitive team environments","Leadership that ignores people's potential","Decisions made without considering human impact","Passive-aggressive behaviour and hidden agendas","Lack of follow-through on team commitments","Environments that value efficiency over people","Being criticized for caring too much","Colleagues who resist growth opportunities","Inconsistency between stated values and actions"],
+challenges:["Not overextending themselves for others","Accepting that some people don't want to be helped","Making tough decisions that hurt individuals","Managing their own needs alongside others'","Accepting imperfection in themselves and their team","Handling rejection of their ideas or vision","Setting boundaries on their availability","Not personalizing team failures","Allowing others to learn from their own mistakes","Balancing empathy with objective decision-making"]
+},
+fr:{
+about:["Leader charismatique, empathique et inspirant","Focalisé sur le développement du potentiel","Excellent communicateur","Organisé et proactif","Valorise l'harmonie mais aborde les sujets difficiles","Voit le meilleur en chacun","Facilitation de groupes","Responsabilité du bien-être des autres","Orienté futur avec focus humain","Intuition forte sur les dynamiques"],
+bring:["Leadership inspirant","Capacité à construire le consensus","Mentorat naturel","Vision convaincante","Facilitation de réunions productives","Navigation des situations complexes","Énergie et optimisme","Construction de ponts","Identification des besoins de développement","Culture d'équipe positive"],
+needs:["Impact significatif sur les personnes","Culture authentique basée sur les valeurs","Reconnaissance du leadership","Partenariats collaboratifs","Sens et direction","Feedback reconnaissant les efforts","Soutien de son propre développement","Équilibre donner/recevoir","Confiance pour développer l'équipe","Cohérence valeurs/pratiques"],
+irritates:["Apathie envers le développement","Environnements toxiques et compétitifs","Leadership ignorant le potentiel","Décisions sans considération humaine","Comportement passif-agressif","Non-suivi des engagements","Efficacité avant les personnes","Être critiqué pour trop se soucier","Résistance à la croissance","Incohérence valeurs/actions"],
+challenges:["Ne pas se surcharger pour les autres","Accepter que certains ne veulent pas d'aide","Décisions difficiles qui blessent","Gérer ses propres besoins","Accepter l'imperfection","Gérer le rejet de ses idées","Poser des limites de disponibilité","Ne pas personnaliser les échecs","Laisser les autres apprendre","Équilibrer empathie et objectivité"]
+},
+ua:{about:["Харизматичний лідер","Розвиток потенціалу","Відмінний комунікатор","Організований","Гармонія з готовністю вирішувати","Бачить найкраще","Фасилітація","Відповідальність за інших","Орієнтований на майбутнє","Інтуїція щодо динаміки"],
+bring:["Натхненне лідерство","Побудова консенсусу","Менторство","Переконливе бачення","Продуктивні наради","Навігація складних ситуацій","Енергія і оптимізм","Побудова мостів","Розвиток команди","Позитивна культура"],
+needs:["Значущий вплив","Автентична культура","Визнання лідерства","Партнерство","Мета","Зворотний зв'язок","Власний розвиток","Баланс","Довіра","Відповідність цінностям"],
+irritates:["Апатія до розвитку","Токсичне середовище","Ігнорування потенціалу","Рішення без людського впливу","Пасивна агресія","Невиконання зобов'язань","Ефективність над людьми","Критика за турботу","Опір зростанню","Неузгодженість цінностей"],
+challenges:["Не перевантажуватися","Не всі хочуть допомоги","Складні рішення","Власні потреби","Прийняття недосконалості","Відмова від ідей","Межі доступності","Не персоналізувати невдачі","Дозволити іншим вчитися","Баланс емпатії та об'єктивності"]
+}},
+
+{type:"ENFP",color:"#F4511E",group:"NF",
+en:{
+about:["Enthusiastic, creative and people-oriented","See possibilities and potential everywhere","Energized by new ideas and connections","Value authenticity and personal expression","Excellent at generating enthusiasm in others","Flexible, spontaneous and adaptable","Deeply curious about people and ideas","Communicate with warmth, energy and imagination","Need variety and freedom to thrive","Motivated by purpose more than process"],
+bring:["Contagious enthusiasm and creative energy","Ability to see connections and possibilities others miss","Talent for motivating and inspiring colleagues","Fresh, innovative perspectives on problems","Skill at building rapport with diverse people","Brainstorming power that opens new directions","Ability to reframe challenges as opportunities","Emotional intelligence and empathy","Flexibility and openness to change","Passionate advocacy for ideas they believe in"],
+needs:["Creative freedom and room to innovate","Meaningful work connected to a larger purpose","Variety and new challenges regularly","Appreciation for their ideas and enthusiasm","Flexible schedules and working arrangements","Collaborative, supportive relationships","Opportunity to inspire and develop others","Recognition of their contributions","Room to explore before committing","Positive, energetic work atmosphere"],
+irritates:["Rigid structures that stifle creativity","Repetitive, routine tasks with no variety","Negativity and cynicism","Excessive focus on rules over possibilities","Being forced into narrow, defined roles","Lack of appreciation for their ideas","Slow, bureaucratic processes","People who dismiss new possibilities","Cold, impersonal work environments","Being told something can't be done without exploration"],
+challenges:["Following through to completion on all projects","Staying focused when new exciting ideas emerge","Managing time and competing priorities","Handling detailed, repetitive administrative work","Making final decisions without second-guessing","Staying engaged during routine phases","Being realistic about what can be accomplished","Delivering difficult feedback directly","Maintaining consistent systems and processes","Not overcommitting to too many projects at once"]
+},
+fr:{
+about:["Enthousiaste, créatif et orienté personnes","Voit des possibilités partout","Énergisé par les nouvelles idées","Valorise l'authenticité","Génère de l'enthousiasme chez les autres","Flexible et spontané","Profondément curieux","Communique avec chaleur et imagination","Besoin de variété et de liberté","Motivé par le sens plus que par le processus"],
+bring:["Enthousiasme contagieux et énergie créative","Connexions et possibilités inédites","Motivation et inspiration des collègues","Perspectives innovantes","Rapport avec des personnes diverses","Brainstorming puissant","Recadrage des défis en opportunités","Intelligence émotionnelle","Flexibilité","Défense passionnée des idées"],
+needs:["Liberté créative","Travail significatif","Variété et nouveaux défis","Appréciation des idées","Flexibilité","Relations collaboratives","Inspirer et développer","Reconnaissance","Espace d'exploration","Atmosphère positive et énergique"],
+irritates:["Structures rigides","Tâches répétitives","Négativité et cynisme","Focus sur les règles","Rôles étroits","Idées non reconnues","Processus lents","Rejet des possibilités","Environnements impersonnels","Être dit que c'est impossible"],
+challenges:["Aller au bout des projets","Rester focalisé","Gestion du temps","Tâches administratives","Décisions finales","Phases routinières","Réalisme","Feedback difficile direct","Systèmes cohérents","Ne pas se surcharger"]
+},
+ua:{about:["Ентузіастичний і креативний","Бачить можливості скрізь","Нові ідеї та зв'язки","Автентичність","Генерує ентузіазм","Гнучкий","Допитливий","Теплий комунікатор","Різноманітність","Мотивований метою"],
+bring:["Заразливий ентузіазм","Бачення зв'язків","Мотивація колег","Інноваційні перспективи","Побудова стосунків","Мозковий штурм","Перетворення викликів","Емоційний інтелект","Гнучкість","Пристрасний захист ідей"],
+needs:["Творча свобода","Значуща робота","Різноманітність","Визнання ідей","Гнучкість","Співпраця","Натхнення інших","Визнання внеску","Простір для дослідження","Позитивна атмосфера"],
+irritates:["Жорсткість","Рутина","Негативізм","Правила замість можливостей","Вузькі ролі","Невизнання ідей","Бюрократія","Відкидання можливостей","Безособове середовище","Неможливо без спроби"],
+challenges:["Завершення проектів","Фокус","Управління часом","Адміністративна робота","Остаточні рішення","Рутинні фази","Реалістичність","Прямий зворотний зв'язок","Системність","Перевантаження проектами"]
+}},
+
+// ===== NT TYPES =====
+{type:"INTJ",color:"#1A237E",group:"NT",
+en:{
+about:["Strategic, independent and intellectually driven","Develop comprehensive internal frameworks","Value competence and continuous improvement","Direct communicators who value precision","Prefer working independently on complex problems","Long-range thinkers who plan systematically","High standards for themselves and others","Trust logic and evidence over emotion","Seek mastery and deep expertise","Can appear reserved but are deeply committed to their vision"],
+bring:["Strategic vision and long-range planning","Ability to design efficient systems and processes","Intellectual rigour that challenges sloppy thinking","Independent problem solving on complex issues","Innovation grounded in thorough analysis","Willingness to make unpopular but necessary decisions","Ability to see patterns and predict outcomes","Objective assessment of situations and proposals","Continuous drive for improvement and excellence","Clear, precise communication of complex ideas"],
+needs:["Intellectual challenge and complex problems","Autonomy in how they approach their work","Competent colleagues who think critically","Recognition of their expertise and strategic value","Efficient processes and minimal bureaucracy","Time and space for deep, focused thinking","Logical explanations for organizational decisions","Opportunities for continuous learning","Respect for their ideas without requiring social proof","Freedom from unnecessary social obligations"],
+irritates:["Incompetence and willful ignorance","Inefficient systems and redundant processes","Groupthink and lack of critical thinking","Emotional decision-making without logical basis","Being asked to repeat themselves or explain basics","Micromanagement from less competent supervisors","Forced social events and small talk","Resistance to clearly better solutions","Excessive meetings that waste productive time","Lack of vision or strategic thinking in leadership"],
+challenges:["Collaborating effectively with different thinking styles","Delivering feedback with appropriate sensitivity","Valuing process and people alongside results","Being patient with slower learners or thinkers","Acknowledging the validity of emotional perspectives","Building rapport and informal relationships at work","Accepting that their way isn't the only effective way","Sharing credit and recognizing others' contributions","Managing perfectionism in collaborative settings","Adapting communication style for different audiences"]
+},
+fr:{
+about:["Stratégique, indépendant et intellectuellement motivé","Développe des cadres internes complets","Valorise la compétence et l'amélioration continue","Communicateur direct qui valorise la précision","Préfère travailler seul sur des problèmes complexes","Penseur à long terme qui planifie systématiquement","Standards élevés pour soi et les autres","Fait confiance à la logique et aux preuves","Cherche la maîtrise et l'expertise","Peut paraître réservé mais profondément engagé"],
+bring:["Vision stratégique","Conception de systèmes efficaces","Rigueur intellectuelle","Résolution indépendante de problèmes complexes","Innovation fondée sur l'analyse","Décisions impopulaires mais nécessaires","Détection de schémas et prédiction","Évaluation objective","Amélioration continue","Communication claire et précise"],
+needs:["Défi intellectuel","Autonomie","Collègues compétents","Reconnaissance de l'expertise","Processus efficaces","Temps de réflexion profonde","Explications logiques","Apprentissage continu","Respect des idées","Liberté des obligations sociales"],
+irritates:["Incompétence","Systèmes inefficaces","Conformisme","Décisions émotionnelles","Se répéter","Micro-management","Événements sociaux forcés","Résistance aux solutions","Réunions excessives","Absence de vision stratégique"],
+challenges:["Collaborer avec des styles différents","Feedback avec sensibilité","Valoriser les processus et les personnes","Patience avec les plus lents","Reconnaître les perspectives émotionnelles","Construire des relations informelles","Accepter d'autres approches efficaces","Partager le mérite","Perfectionnisme en collaboration","Adapter sa communication"]
+},
+ua:{about:["Стратегічний і незалежний","Внутрішні фреймворки","Компетентність","Точний комунікатор","Самостійна робота","Довгострокове планування","Високі стандарти","Логіка і докази","Глибока експертиза","Стриманий але відданий"],
+bring:["Стратегічне бачення","Ефективні системи","Інтелектуальна строгість","Вирішення складних проблем","Інновація через аналіз","Непопулярні рішення","Виявлення патернів","Об'єктивна оцінка","Постійне вдосконалення","Чітка комунікація"],
+needs:["Інтелектуальний виклик","Автономія","Компетентні колеги","Визнання експертизи","Ефективні процеси","Час для роздумів","Логічні пояснення","Навчання","Повага до ідей","Свобода від соціальних обов'язків"],
+irritates:["Некомпетентність","Неефективність","Конформізм","Емоційні рішення","Повторення","Мікроменеджмент","Примусова соціалізація","Опір рішенням","Зайві наради","Відсутність стратегії"],
+challenges:["Співпраця з різними стилями","Тактовний зворотний зв'язок","Цінування процесу та людей","Терпіння","Емоційні перспективи","Неформальні стосунки","Інші підходи","Визнання внеску інших","Перфекціонізм","Адаптація комунікації"]
+}},
+
+{type:"INTP",color:"#0D47A1",group:"NT",
+en:{
+about:["Analytical, inventive and intellectually curious","Driven by the need to understand how things work","Value logical consistency above all","Independent thinkers who question everything","Prefer theoretical frameworks and abstract ideas","Quiet and reserved but intensely focused internally","Flexible and open-minded until logic is violated","Excellent at seeing flaws in arguments and systems","Can become deeply absorbed in complex problems","Communication is precise but sometimes too abstract"],
+bring:["Exceptional analytical and critical thinking","Ability to identify logical flaws and inconsistencies","Innovative solutions to complex theoretical problems","Objectivity that cuts through emotional bias","Deep expertise in their areas of interest","Ability to simplify complex concepts","Independent perspective that prevents groupthink","Creative approaches to systemic problems","Precision in thinking and communication","Willingness to challenge assumptions constructively"],
+needs:["Intellectual freedom to explore ideas","Complex problems worthy of their analytical abilities","Autonomy and minimal supervision","Colleagues who value logical reasoning","Time alone to think deeply without interruption","Freedom from rigid schedules and deadlines","Respect for their analytical process","Opportunity to learn continuously","Environment that values ideas over hierarchy","Space to question and challenge without judgment"],
+irritates:["Illogical decisions and inconsistent reasoning","Emotional arguments presented as facts","Being forced to follow procedures that make no sense","Excessive structure and micromanagement","Having to engage in small talk and social rituals","Authoritarian leadership that silences questioning","Repetitive, routine tasks with no intellectual content","Being pressured to decide before fully analyzing","Group consensus that overrides better logic","People who cannot distinguish facts from opinions"],
+challenges:["Communicating ideas in accessible, practical terms","Meeting deadlines and managing time effectively","Engaging in necessary social and political dynamics","Being sensitive to colleagues' emotional needs","Following through on implementation after ideation","Making decisions with incomplete information","Accepting practical constraints on theoretical ideals","Participating actively in team activities","Giving regular feedback and updates proactively","Translating analysis into actionable recommendations"]
+},
+fr:{
+about:["Analytique, inventif et intellectuellement curieux","Besoin de comprendre comment les choses fonctionnent","Valorise la cohérence logique avant tout","Penseur indépendant qui questionne tout","Préfère les cadres théoriques","Calme mais intensément focalisé","Flexible jusqu'à ce que la logique soit violée","Détecte les failles dans les arguments","Peut être profondément absorbé","Communication précise mais parfois trop abstraite"],
+bring:["Pensée analytique et critique exceptionnelle","Détection des failles logiques","Solutions innovantes à des problèmes complexes","Objectivité qui coupe à travers les biais","Expertise profonde","Simplification de concepts complexes","Perspective indépendante","Approches créatives des problèmes systémiques","Précision de pensée","Challenge constructif des hypothèses"],
+needs:["Liberté intellectuelle","Problèmes complexes","Autonomie","Collègues logiques","Temps seul pour réfléchir","Flexibilité des horaires","Respect du processus analytique","Apprentissage continu","Idées avant hiérarchie","Espace pour questionner"],
+irritates:["Décisions illogiques","Arguments émotionnels comme faits","Procédures illogiques","Micro-management","Small talk","Autoritarisme","Tâches répétitives","Pression à décider trop vite","Consensus qui écrase la logique","Confusion faits/opinions"],
+challenges:["Communication accessible","Gestion du temps et des délais","Dynamiques sociales","Sensibilité émotionnelle","Suivi après l'idéation","Décisions avec informations incomplètes","Contraintes pratiques","Participation active","Feedback régulier","Traduire l'analyse en recommandations"]
+},
+ua:{about:["Аналітичний і допитливий","Потреба розуміти","Логічна послідовність","Незалежний мислитель","Теоретичні фреймворки","Тихий але зосереджений","Гнучкий до порушення логіки","Бачить недоліки","Глибоке занурення","Точна комунікація"],
+bring:["Аналітичне мислення","Виявлення логічних помилок","Інноваційні рішення","Об'єктивність","Глибока експертиза","Спрощення складного","Незалежна перспектива","Креативні підходи","Точність","Конструктивний виклик"],
+needs:["Інтелектуальна свобода","Складні задачі","Автономія","Логічні колеги","Час для роздумів","Гнучкість","Повага до процесу","Навчання","Ідеї над ієрархією","Простір для запитань"],
+irritates:["Нелогічні рішення","Емоції як факти","Безглузді процедури","Мікроменеджмент","Світські розмови","Авторитаризм","Рутина","Тиск вирішувати швидко","Консенсус проти логіки","Плутанина фактів і думок"],
+challenges:["Доступна комунікація","Управління часом","Соціальні динаміки","Емоційна чутливість","Впровадження після ідеї","Рішення без повної інформації","Практичні обмеження","Активна участь","Регулярний зворотний зв'язок","Аналіз у рекомендації"]
+}},
+
+{type:"ENTJ",color:"#880E4F",group:"NT",
+en:{
+about:["Bold, strategic and natural commanders","Driven to lead and organize people toward goals","Think in systems and long-term strategies","Direct, decisive and confident communicators","Value competence, efficiency and results","Challenge themselves and others to excel","Quick to see inefficiencies and take corrective action","Natural at strategic planning and execution","Expect high standards and accountability","Energized by solving complex organizational challenges"],
+bring:["Strong strategic leadership and vision","Ability to organize people and resources effectively","Decisive action that moves projects forward","Clear communication of expectations and goals","Willingness to take on big challenges","Systematic approach to complex problems","Accountability and results orientation","Ability to make tough calls quickly","Driving continuous improvement","Energy and confidence that rallies the team"],
+needs:["Authority to make decisions and drive results","Competent, ambitious team members","Big, meaningful challenges to solve","Efficiency and clear accountability","Intellectual stimulation and strategic discussions","Direct, honest communication","Recognition of leadership and achievements","Opportunities to develop strategy and vision","Freedom to implement improvements","Respect for their drive and determination"],
+irritates:["Incompetence and lack of effort","Resistance to change without valid reasons","Slow decision-making and endless deliberation","Emotional reactions blocking rational solutions","Lack of accountability","People who make excuses instead of solving problems","Inefficient processes nobody is willing to fix","Passive leadership that avoids difficult decisions","Colleagues who don't speak up honestly","Mediocrity accepted as the standard"],
+challenges:["Listening patiently before deciding","Considering emotional impact of their directness","Allowing others to lead at their own pace","Showing vulnerability and admitting mistakes","Valuing relationship-building as much as results","Being patient during slower implementation phases","Recognizing contributions beyond measurable outputs","Adapting their leadership style to different people","Not dominating every discussion","Accepting that not everything needs to be optimized"]
+},
+fr:{
+about:["Audacieux, stratégique et leader naturel","Motivé pour organiser vers des objectifs","Pense en systèmes et stratégies","Direct, décisif et confiant","Valorise compétence, efficacité et résultats","Se challenge et challenge les autres","Repère vite les inefficacités","Planification et exécution stratégique","Standards élevés et responsabilisation","Énergisé par les défis organisationnels"],
+bring:["Leadership stratégique et vision","Organisation efficace","Action décisive","Communication claire","Relever les grands défis","Approche systématique","Responsabilité et orientation résultats","Décisions rapides","Amélioration continue","Énergie et confiance"],
+needs:["Autorité de décision","Équipe compétente","Grands défis","Efficacité et responsabilité","Stimulation intellectuelle","Communication directe","Reconnaissance","Développement stratégique","Liberté d'améliorer","Respect de la détermination"],
+irritates:["Incompétence","Résistance au changement","Lenteur décisionnelle","Réactions émotionnelles","Irresponsabilité","Excuses au lieu de solutions","Processus inefficaces","Leadership passif","Manque de franchise","Médiocrité acceptée"],
+challenges:["Écouter patiemment","Impact émotionnel de la franchise","Laisser les autres mener","Montrer sa vulnérabilité","Valoriser les relations","Patience lors de phases lentes","Contributions non mesurables","Adapter son style","Ne pas dominer","Accepter que tout n'a pas besoin d'optimisation"]
+},
+ua:{about:["Сміливий стратегічний лідер","Організує до цілей","Системне мислення","Прямий і рішучий","Компетентність та результати","Вимогливий","Бачить неефективність","Стратегічне планування","Високі стандарти","Складні виклики"],
+bring:["Стратегічне лідерство","Організація ресурсів","Рішучі дії","Чіткі цілі","Великі виклики","Системний підхід","Відповідальність","Швидкі рішення","Вдосконалення","Енергія"],
+needs:["Повноваження","Компетентна команда","Значущі виклики","Ефективність","Інтелектуальна стимуляція","Прямота","Визнання","Стратегія","Свобода покращувати","Повага"],
+irritates:["Некомпетентність","Опір змінам","Повільні рішення","Емоційні блокування","Безвідповідальність","Виправдання","Неефективність","Пасивне лідерство","Нещирість","Посередність"],
+challenges:["Терпляче слухання","Емоційний вплив прямоти","Дозволити іншим вести","Вразливість","Цінування стосунків","Терпіння","Нематеріальні внески","Адаптація стилю","Не домінувати","Не все потребує оптимізації"]
+}},
+
+{type:"ENTP",color:"#BF360C",group:"NT",
+en:{
+about:["Innovative, strategic and intellectually playful","Love debating ideas and exploring possibilities","Quick-witted and excellent at improvisation","Challenge conventional thinking and the status quo","Energized by new concepts and intellectual sparring","Highly adaptable and resourceful","See patterns and connections across domains","Value competence and clever solutions","Communicate with wit, energy and persuasion","Bored by routine and repetition"],
+bring:["Innovative thinking that opens new possibilities","Ability to challenge assumptions constructively","Quick analysis and creative problem solving","Energy and enthusiasm for new directions","Skill at seeing opportunities in challenges","Persuasive communication and debate skills","Ability to connect ideas across different domains","Entrepreneurial mindset and initiative","Adaptability when circumstances shift","Intellectual energy that sparks team creativity"],
+needs:["Freedom to explore ideas without constraints","Intellectual sparring partners","Variety and new challenges constantly","Recognition of their innovative contributions","Minimal rules and bureaucratic overhead","Big-picture strategic discussions","Opportunity to challenge and improve systems","Stimulating, fast-paced environment","Autonomy to pursue their approach","Colleagues who can handle robust debate"],
+irritates:["Rigid adherence to rules for rules' sake","Stifling of creativity and new ideas","Slow, bureaucratic decision-making","People who take debate personally","Repetitive tasks and boring routines","Lack of intellectual stimulation","Authority based on title rather than competence","Being expected to follow without questioning","Narrow thinking that misses the bigger picture","Environments that punish risk-taking and experimentation"],
+challenges:["Following through to completion after the excitement of starting","Staying focused on one project at a time","Being sensitive to how debate affects others","Managing details and administrative requirements","Listening fully before jumping in with ideas","Respecting necessary processes and procedures","Converting ideas into practical implementation","Being patient with slower-paced colleagues","Maintaining consistency in communication","Accepting that some rules serve an important purpose"]
+},
+fr:{
+about:["Innovant, stratégique et intellectuellement joueur","Aime débattre et explorer","Esprit vif, excellent en improvisation","Challenge la pensée conventionnelle","Énergisé par les nouveaux concepts","Très adaptable et débrouillard","Voit les connexions entre domaines","Valorise la compétence et l'ingéniosité","Communication avec humour et persuasion","S'ennuie avec la routine"],
+bring:["Pensée innovante","Challenge constructif des hypothèses","Analyse rapide et créative","Énergie pour de nouvelles directions","Opportunités dans les défis","Communication persuasive","Connexions transdisciplinaires","Esprit entrepreneurial","Adaptabilité","Énergie intellectuelle stimulante"],
+needs:["Liberté d'explorer","Partenaires de débat","Variété constante","Reconnaissance de l'innovation","Minimum de bureaucratie","Discussions stratégiques","Améliorer les systèmes","Environnement stimulant","Autonomie","Collègues qui supportent le débat"],
+irritates:["Règles pour les règles","Étouffement de la créativité","Lenteur bureaucratique","Débats pris personnellement","Tâches répétitives","Manque de stimulation","Autorité sans compétence","Suivre sans questionner","Pensée étroite","Punition de la prise de risque"],
+challenges:["Aller au bout après le démarrage","Focus sur un projet","Sensibilité dans les débats","Gestion des détails","Écouter avant de proposer","Respecter les processus","Concrétiser les idées","Patience avec les collègues","Cohérence de communication","Accepter que certaines règles sont utiles"]
+},
+ua:{about:["Інноваційний і грайливий","Любить дебатувати","Дотепний","Кидає виклик","Нові концепції","Адаптивний","Бачить зв'язки","Цінує компетентність","Переконливий","Нудьгує від рутини"],
+bring:["Інноваційне мислення","Конструктивний виклик","Швидкий аналіз","Енергія","Можливості у викликах","Переконлива комунікація","Міждисциплінарні зв'язки","Підприємливість","Адаптивність","Інтелектуальна енергія"],
+needs:["Свобода дослідження","Інтелектуальні партнери","Різноманітність","Визнання інновацій","Мінімум бюрократії","Стратегічні обговорення","Покращення систем","Стимулююче середовище","Автономія","Колеги для дебатів"],
+irritates:["Правила заради правил","Пригнічення креативності","Бюрократія","Персоналізація дебатів","Рутина","Відсутність стимуляції","Авторитет без компетенції","Сліпе слідування","Вузьке мислення","Покарання за ризик"],
+challenges:["Завершення після старту","Фокус на одному проекті","Чутливість у дебатах","Деталі","Слухати до кінця","Процеси","Практична реалізація","Терпіння","Послідовність","Правила мають сенс"]
+}}
+];
+
+function renderCollab() {
+  const L = i18n[currentLang];
+  const l = currentLang;
+  // Filters
+  const filters = [["all",L.allTypes,"#333"],["SJ",L.filterSJ,"#1565C0"],["SP",L.filterSP,"#E65100"],["NF",L.filterNF,"#F9A825"],["NT",L.filterNT,"#B71C1C"]];
+  let fhtml = "";
+  filters.forEach(function(f) {
+    const active = collabFilter === f[0];
+    fhtml += '<button onclick="setCollabFilter(\'' + f[0] + '\')" style="padding:6px 14px;border-radius:20px;border:' + (active ? '2px solid ' + f[2] : '1px solid #ccc') + ';background:' + (active ? f[2] : 'white') + ';color:' + (active ? 'white' : f[2]) + ';font-size:12px;font-weight:600;cursor:pointer">' + f[1] + '</button>';
+  });
+  document.getElementById("collab-filters").innerHTML = fhtml;
+
+  const filtered = collabFilter === "all" ? collab : collab.filter(function(c) { return c.group === collabFilter; });
+  const sections = [["about",L.cabout||"About","#E3F2FD"],["bring",L.cbring||"Bring","#E8F5E9"],["needs",L.cneeds||"Needs","#FFF8E1"],["irritates",L.cirritates||"Irritates","#FFEBEE"],["challenges",L.cchallenges||"Challenges","#F3E5F5"]];
+  let html = "";
+  filtered.forEach(function(p) {
+    const d = p[l];
+    html += '<div class="card" style="border:2px solid ' + p.color + '">';
+    html += '<div class="card-header" style="background:' + p.color + '" onclick="toggleCard(this)">';
+    html += '<div class="left"><span class="name" style="font-size:20px;letter-spacing:1px">' + p.type + '</span><span class="types" style="margin-left:8px;font-size:12px;opacity:.8">' + p.group + '</span></div>';
+    html += '<span class="arrow">▼</span></div>';
+    html += '<div class="card-body">';
+    sections.forEach(function(s) {
+      html += '<div class="section-block"><div class="section-label" style="background:' + s[2] + '">' + s[1] + '</div><ul>';
+      if (d && d[s[0]]) { d[s[0]].forEach(function(item) { html += '<li>' + item + '</li>'; }); }
+      html += '</ul></div>';
+    });
+    html += '</div></div>';
+  });
+  document.getElementById("collab-cards").innerHTML = html;
+}
+
+function setCollabFilter(f) {
+  collabFilter = f;
+  renderCollab();
+}
 
 // Initial render
+document.querySelectorAll(".lang-btn").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+document.querySelectorAll(".tab-btn").forEach(b => b.addEventListener("click", () => setTab(b.dataset.tab)));
 renderStress();
 renderComm();
+renderCollab();
 </script>
 </body>
 </html>
