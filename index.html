@@ -546,6 +546,21 @@ var conflictPairs=[
 
 
 
+
+// Fix comm data: convert nested {name:{en:...,fr:...}} to flat {en:{name:...,chars:...}}
+["en","fr","ua"].forEach(function(lang){
+  comm.forEach(function(s){
+    if(!s[lang]){
+      s[lang]={
+        name:s.name[lang]||s.name.en,
+        chars:s.chars[lang]||s.chars.en,
+        convince:s.convince[lang]||s.convince.en,
+        doL:s.doL[lang]||s.doL.en,
+        dontL:s.dontL[lang]||s.dontL.en
+      };
+    }
+  });
+});
 // ====== FULL TRANSLATIONS PATCH ======
 comm[0].es={"name":"Los Analíticos","chars":["Práctico","Realista","Lógico","Detallista","Sistemático"],"convince":["Da hechos y ve al grano","Ahorro de tiempo y dinero","Cómo medir resultados","Responde con precisión","Ejemplos de éxitos"],"doL":["Pros y contras","Hechos y pruebas","Claro y directo"],"dontL":["Demasiado emocional","Sin lógica","Sin confianza"]};
 comm[0].it={"name":"Gli Analitici","chars":["Pratico","Concreto","Logico","Dettagliato","Sistematico"],"convince":["Dai fatti e vai al punto","Risparmio di tempo e denaro","Come misurare i risultati","Rispondi con precisione","Esempi di successi"],"doL":["Pro e contro","Fatti e prove","Chiaro e diretto"],"dontL":["Troppo emotivo","Senza logica","Senza sicurezza"]};
